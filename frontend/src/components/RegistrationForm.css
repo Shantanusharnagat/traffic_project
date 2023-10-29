@@ -1,0 +1,129 @@
+/* RegistrationForm.css (or your preferred CSS file) */
+
+/* Reset CSS */
+*,
+*:before,
+*:after,
+ul,
+li,
+a,
+button,
+input,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+img,
+image,
+svg,
+path,
+g,
+canvas {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: transparent;
+    border: none;
+    text-decoration: none;
+    font-family: 'Roboto', sans-serif;
+    user-select: none;
+    list-style: none;
+    position: relative;
+}
+
+/* General styling */
+html,
+body {
+    background-color: #457b9d;
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto', sans-serif;
+}
+
+/* Form container */
+.registration-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    margin-top: 22vh;
+}
+
+/* Title */
+.title {
+    text-transform: capitalize;
+    font-size: 1.6em;
+    font-weight: 300;
+    padding: 20px 0;
+}
+
+/* Input fields */
+.input-container {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+}
+
+.input-label {
+    font-size: 1em;
+    margin-bottom: 5px;
+    color: #000000;
+}
+
+.input-field {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid gray;
+    border-radius: 5px;
+    outline: none;
+    font-size: 1.05em;
+}
+
+/* Register button */
+.register-button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007AFF;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 400;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s, box-shadow 0.2s;
+}
+
+.register-button:hover {
+    background-color: #0056B3;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* "Already registered?" link */
+.already-registered {
+    margin-top: 20px;
+    text-align: center;
+    color: #007AFF;
+    font-weight: 500;
+    text-transform: capitalize;
+}
+
+/* Link styling */
+.already-registered a {
+    color: #007AFF;
+    text-decoration: none;
+    font-weight: 700;
+}
+
+.already-registered a:hover {
+    text-decoration: underline;
+}

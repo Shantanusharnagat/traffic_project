@@ -1,6 +1,1 @@
- // const newCourse={
-    //     name: 'React',
-    //     description: 'React course',
-    //     price: 100,
-    //     author: 'Preshit'
-    // }
+'http://localhost:5000/api/courses/courses'

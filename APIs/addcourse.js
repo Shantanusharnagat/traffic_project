@@ -2,10 +2,10 @@ const axios=require('axios')
 
 // Example for sending a POST request to login
     const newCourse={
-        name: 'Dom',
-        description: 'React Dom',
-        price: 500,
-        author: 'shantanu'
+        name: 'Biology',
+        description: 'Tans',
+        price: 400,
+        author: 'potya'
     }
 
 axios.post('http://localhost:5000/api/courses/courses', newCourse)
