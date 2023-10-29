@@ -2,5 +2,5 @@
 
 This project uses the following environment variables:
 
-- `MONGO_URL`: Description of what this variable is for.
-- `PORT`: Description of what this variable is for.
+- `MONGO_URL`: Your mongoDB url.
+- `PORT`: 5000.
