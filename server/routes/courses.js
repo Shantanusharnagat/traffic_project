@@ -1,7 +1,7 @@
 const express=require('express')
 const router=express.Router()
 const Course=require('../models/course')
-
+//const authorizationMiddleware = require('../middlewares/authorization');
 router.get('/courses', async(req, res)=>{
     try{
         const courses=await Course.find();

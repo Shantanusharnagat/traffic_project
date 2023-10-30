@@ -1,12 +1,12 @@
 import React from 'react'
 import Navbar from './Navbar'
-import Display from './Display'
+import AuthorDisplay from './AuthorDisplay'
 
 const Courses = () => {
   return (
     <div>
         <Navbar/>
-        <Display/>
+        <AuthorDisplay/>
     </div>
   )
 }

@@ -6,8 +6,8 @@ const jwt = require('jsonwebtoken');
 
 // User registration
 router.post('/register', async(req, res) => {
-  const { username, email, password } = req.body;
- const user = new User({ username, email, password });
+  const { username, email, password, role } = req.body;
+ const user = new User({ username, email, password, role });
   try {
     
     await user.save();
@@ -42,7 +42,7 @@ router.post('/login', async (req, res) => {
     }
 
     // Generate a JWT token for authentication
-    const secretKey = 'your-secret-key';
+    const secretKey = 'abc123';
     const token = jwt.sign({ userId: user._id }, secretKey, { expiresIn: '1h' });
     res.status(200).json({ token });
   } catch (err) {

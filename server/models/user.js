@@ -7,6 +7,7 @@
     username: String,
     email: { type: String, unique: true },
     password: String,
+    role: { type: String, default: 'user' },
   });
 
   // Hash and salt the user's password before saving it
