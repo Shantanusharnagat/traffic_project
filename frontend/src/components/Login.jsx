@@ -17,13 +17,15 @@ function Login() {
     e.preventDefault();
     try {
       const response = await axios.post('http://localhost:5000/api/auth/login', formData);
-      console.log(response.data);
+      document.cookie = `token=${response.data.token}`;
+      console.log(response.data)
       navigate('/');
     } catch (error) {
       console.log(error);
     }
+
     // Send a request to your backend to handle login with formData
-    console.log('Login data:', formData);
+    //console.log('Login data:', formData);
   };
 
   return (

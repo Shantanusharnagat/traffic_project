@@ -3,6 +3,9 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/user');
 const jwt = require('jsonwebtoken');
+const cookieParser =require('cookie-parser');
+
+router.use(cookieParser())
 
 // User registration
 router.post('/register', async(req, res) => {
@@ -36,15 +39,22 @@ router.post('/login', async (req, res) => {
       return res.status(401).json({ error: 'User not found' });
     }
 
+
     const isMatch = await user.comparePassword(password);
     if (!isMatch) {
       return res.status(401).json({ error: 'Invalid password' });
     }
-
+    const isAuthor=user.role=='admin';
+    console.log(isAuthor)
+    
     // Generate a JWT token for authentication
     const secretKey = 'abc123';
-    const token = jwt.sign({ userId: user._id }, secretKey, { expiresIn: '1h' });
-    res.status(200).json({ token });
+    const token = jwt.sign({ userId: user._id, isAuthor }, secretKey, { expiresIn: '1h' });
+
+    // Set a cookie and redirect to root
+    res.cookie('token', token, { httpOnly: true , maxAge: 3600000});
+   
+    res.status(200).json({ token  });
   } catch (err) {
     res.status(500).json({ error: 'Internal Server Error' });
   }

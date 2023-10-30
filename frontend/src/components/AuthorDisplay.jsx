@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import CourseCard from './Cards';
+import CourseCard from './AuthorCards';
 import './Display.css';
 import AddCourse from './Addcourse';
 

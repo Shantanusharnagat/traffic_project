@@ -9,7 +9,7 @@ const CourseCard = ({ name, description, author, price, onDelete }) => {
       <p className="course-description">{description}</p>
       <p className="course-author">Author: {author}</p>
       <p className="course-price">Price: ${price}</p>
-      
+      <button onClick={onDelete}>Delete</button> {/* Add this delete button */}
     </div>
   );
 };
