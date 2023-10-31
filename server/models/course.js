@@ -5,7 +5,8 @@ const courseSchema=new Schema({
     name: String,
     description: String,
     price: Number,
-    author: String
+    author: String,
+    createdby: String,
 })  
 
 const Course=mongoose.model('Course', courseSchema)

@@ -5,20 +5,23 @@ import './RegistrationForm.css';
 import { useNavigate } from 'react-router-dom';
 
 function RegistrationForm() {
-  const [formData, setFormData] = useState({ username: '', email: '', password: '' });
+  const [formData, setFormData] = useState({ username: '', email: '', password: '', role:'user' });
   const navigate=useNavigate();
   const handleFormSubmit = async (e) => {
     e.preventDefault();
 
     try {
       const response = await axios.post('http://localhost:5000/api/auth/register', formData);
-      console.log(response.data); // Handle success (e.g., user registered)
+      document.cookie = `token=${response.data.token}`;
+      console.log(response.data)
       navigate('/');
     } catch (error) {
       console.error(error); // Handle registration failure
     }
   };
-
+  const handleRoleChange = (e) => {
+    setFormData({ ...formData, role: e.target.value });
+  };
   return (
     <div className="registration-container">
       <div className="title">Register</div>
@@ -54,6 +57,18 @@ function RegistrationForm() {
             className="input-field"
             onChange={(e) => setFormData({ ...formData, password: e.target.value })}
           />
+        </div>
+        <div className="input-container">
+          <label className="input-label">Role</label>
+          <select
+            name="role"
+            className="input-field"
+            value={formData.role}
+            onChange={handleRoleChange}
+          >
+            <option value="user">Student</option>
+            <option value="admin">Tutor</option>
+          </select>
         </div>
 
         <button type="submit" className="register-button">Register</button>

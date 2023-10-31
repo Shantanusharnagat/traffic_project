@@ -10,6 +10,7 @@ function Courses() {
   useEffect(() => {
     // Check the 'token' cookie to determine the user's role
     const token = document.cookie.split('; ').find(cookie => cookie.startsWith('token='));
+    
     if (token) {
       const decodedToken = jwtDecode(token.split('=')[1]);
       setIsAuthor(decodedToken.isAuthor);

@@ -11,14 +11,25 @@ router.get('/courses', async(req, res)=>{
     }
 })
 
+router.get('/authorcourses', async(req, res)=>{
+    try{
+        const courses=await Course.find({createdby: req.query.createdby});
+        res.json(courses)
+    } catch(error){
+        res.status(500).json({error: 'Couldnt retrieve courses'})
+    }
+
+})
+
 router.post('/courses', async(req, res)=>{
-    const {name, description, price, author}=req.body;
+    const {name, description, price, author, createdby}=req.body;
 
     const newCourse=new Course({
         name,
         description,
         price,
-        author
+        author,
+        createdby,
     })
 
     try{

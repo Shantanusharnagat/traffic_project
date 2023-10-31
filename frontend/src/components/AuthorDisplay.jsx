@@ -3,12 +3,14 @@ import axios from 'axios';
 import CourseCard from './AuthorCards';
 import './Display.css';
 import AddCourse from './Addcourse';
+import { jwtDecode } from 'jwt-decode';
 
 function Courses() {
-  const [courses, setCourses] = useState([]);
+  const [courses, setCourses] = useState([]); // Initialize with an empty array
+  const [user_id, setUser_id] = useState('');
 
   const fetchCourses = () => {
-    axios.get('http://localhost:5000/api/courses/courses')
+    axios.get(`http://localhost:5000/api/courses/authorcourses?createdby=${user_id}`)
       .then(response => {
         setCourses(response.data);
       })
@@ -18,10 +20,17 @@ function Courses() {
   };
 
   useEffect(() => {
-    fetchCourses();
-  }, []);
+    const token = document.cookie.split('; ').find(cookie => cookie.startsWith('token='));
+    
+    if (token) {
+      const decodedToken = jwtDecode(token.split('=')[1]);
+      setUser_id(decodedToken.userId);
+      fetchCourses(); // Fetch courses immediately after setting user_id
+    }
+  }, [fetchCourses]); // Empty dependency array to ensure it only runs once
 
   const addCourse = (newCourse) => {
+    newCourse.createdby = user_id;
     axios.post('http://localhost:5000/api/courses/courses', newCourse)
       .then(() => {
         fetchCourses(); // Refresh the course list
