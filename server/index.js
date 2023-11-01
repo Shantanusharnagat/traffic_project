@@ -4,7 +4,7 @@ const dotenv= require('dotenv').config()
 const cors=require('cors')
 const connectDB=require('./db.js')
 const cookieParser=require('cookie-parser')
-const stripe=require("stripe")("sk_test_51MgCSrSIGmj3KYA8Erks6FwbQJZmn6umqAgauiIYgRCm3j1JEpAsQt7NnvyhCN2YfkSYoR37lVCL8EExfkHNCyZi00LFCpAGgL")
+const stripe=require("stripe")(`${process.env.STRIPE_KEY}`)
 
 
 connectDB()
