@@ -26,6 +26,7 @@ function Courses() {
           description={course.description}
           author={course.author}
           price={course.price}
+          onCourseClick={course => console.log(course)}
         />
       ))}
     </div>
