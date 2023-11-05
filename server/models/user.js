@@ -8,6 +8,7 @@
     email: { type: String, unique: true },
     password: String,
     role: { type: String, default: 'user' },
+    coursesBought: [{ type: Schema.Types.ObjectId, ref: 'Course' }],
   });
 
   // Hash and salt the user's password before saving it

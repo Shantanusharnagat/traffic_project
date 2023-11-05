@@ -17,7 +17,7 @@ router.post('/register', async(req, res) => {
     const isAuthor=user.role=='admin';
     console.log(isAuthor)
     const secretKey = 'abc123';
-    const token = jwt.sign({ userId: user._id, isAuthor }, secretKey, { expiresIn: '1h' });
+    const token = jwt.sign({ userId: user._id, isAuthor, userName: user.username }, secretKey, { expiresIn: '1h' });
 
     // Set a cookie and redirect to root
     res.cookie('token', token, { httpOnly: true , maxAge: 3600000});
@@ -53,11 +53,12 @@ router.post('/login', async (req, res) => {
       return res.status(401).json({ error: 'Invalid password' });
     }
     const isAuthor=user.role=='admin';
+    
     console.log(isAuthor)
     
     // Generate a JWT token for authentication
     const secretKey = 'abc123';
-    const token = jwt.sign({ userId: user._id, isAuthor }, secretKey, { expiresIn: '1h' });
+    const token = jwt.sign({ userId: user._id, isAuthor, userName: user.username }, secretKey, { expiresIn: '1h' });
 
     // Set a cookie and redirect to root
     res.cookie('token', token, { httpOnly: true , maxAge: 3600000});
@@ -67,5 +68,8 @@ router.post('/login', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
+
+
 
 module.exports = router;

@@ -2,8 +2,8 @@ const axios = require('axios');
 
 // Example for sending a POST request to login
 const loginData = {
-  email: 'admin@gmail.com', // Use the email of the registered user
-  password: 'admin' // Use the password of the registered user
+  email: 'rushab@gmail.com', // Use the email of the registered user
+  password: 'rushab' // Use the password of the registered user
 };
 
 axios.post('http://localhost:5000/api/auth/login', loginData)

@@ -3,6 +3,7 @@ import axios from 'axios'; // Adjust this for your backend API
 import CourseCard from './Cards';
 import './Display.css';
 import {loadStripe} from '@stripe/stripe-js';
+import {jwtDecode} from 'jwt-decode';
 
 function Courses() {
   const [courses, setCourses] = useState([]);
@@ -19,13 +20,30 @@ function Courses() {
   }, []);
 
   const makePayment=async(course)=>{
+    const token = document.cookie.split('; ').find(cookie => cookie.startsWith('token='));
+    
+    if (!token) {
+      alert("Please login to buy courses")
+      window.location.href = '/login';
+      return
+      
+    }
+    const decodedToken = jwtDecode(token.split('=')[1]);
+    const userId=decodedToken.userId;
+  
+    
+
     const stripe=await loadStripe("pk_test_51MgCSrSIGmj3KYA8oqOT1Y7TWGqP9hLbgzAGLJGGDeg6PWWZqcDwxKVnR0f5wVqszpG5KCRUVM7cBnPAwCyiyafd00aS8gA7pw")
 
     const body={
-      products:[course]
+      products:[course],
+      userId
     }
     const headers={
-      "Content-Type":"application/json"
+      "Content-Type":"application/json",
+      Authorization: `Bearer ${token}`
+
+
     }
 
     const response=await fetch("http://localhost:5000/api/payment/payment",{

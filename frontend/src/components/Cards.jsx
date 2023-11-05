@@ -1,10 +1,10 @@
 import React from 'react';
 import './Cards.css';
 
-const CourseCard = ({ name, description, author, price, onCourseClick }) => {
+const CourseCard = ({ key, name, description, author, price, onCourseClick }) => {
 
   const handleClick = () => {
-    onCourseClick({ name, description, author, price });
+    onCourseClick({ key, name, description, author, price });
   };
   return (
     <div className="course-card" onClick={handleClick}>

@@ -39,3 +39,44 @@
 .navbar-link:hover {
     text-decoration: underline;
 }
+
+/* Navbar.css */
+/* Add this CSS code for the dropdown */
+.navbar-user {
+    position: relative;
+    display: inline-block;
+}
+
+.navbar-dropdown {
+    display: none;
+    position: absolute;
+    margin-top: 5px;
+    top: 100%;
+    /* Position it below the .navbar-user element */
+    right: 0;
+    /* Position it on the right side */
+
+    min-width: 100px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    /* Ensure it's above other elements */
+}
+
+.navbar-user:hover .navbar-dropdown {
+    display: block;
+    /* Show the dropdown when .navbar-user is hovered */
+}
+
+.navbar-logout {
+    display: block;
+    width: 100%;
+    padding: 10px 15px;
+    text-align: center;
+    text-decoration: none;
+    color: white;
+
+}
+
+.navbar-logout:hover {
+    background-color: #0056b3;
+}

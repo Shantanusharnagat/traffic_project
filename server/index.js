@@ -21,6 +21,7 @@ app.use(cookieParser())
 app.use('/api/auth', require('./routes/auth.js'))
 app.use('/api/courses', require('./routes/courses.js'))
 app.use('/api/payment', require('./routes/payment.js'))
+app.use('/api/users', require('./routes/users.js'))
 
 app.listen(port, ()=>{
     console.log(`server started on ${port}`)
