@@ -60,6 +60,7 @@ function Courses() {
           description={course.description}
           author={course.author}
           price={course.price}
+          
           onDelete={() => deleteCourse(course._id)}
         />
       ))}

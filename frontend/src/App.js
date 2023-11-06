@@ -7,6 +7,7 @@ import Courses from './components/Courses';
 import Success from './components/Success';
 import Cancel from './components/Cancel';
 import MyCourses from './components/MyCourses';
+import CourseDetail from './components/CourseDetail';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Route path="/success" element={<Success/>} />
           <Route path="/cancel" element={<Cancel/>} />
           <Route path="/mycourses" element={<MyCourses/>} />
+          <Route path='/mycourses/:id' element={<CourseDetail/>} />
 
         </Routes>
       </div>

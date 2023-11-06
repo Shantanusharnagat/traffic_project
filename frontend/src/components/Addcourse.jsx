@@ -7,12 +7,16 @@ function AddCourse({ onAddCourse }) {
     description: '',
     author: '',
     price: 0,
+    ytlink: '',
+   
   });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setCourse({ ...course, [name]: value });
   };
+
+ 
 
   const handleSubmit = () => {
     onAddCourse(course);
@@ -21,6 +25,8 @@ function AddCourse({ onAddCourse }) {
       description: '',
       author: '',
       price: 0,
+      ytlink: '',
+      
     });
   };
 
@@ -56,6 +62,14 @@ function AddCourse({ onAddCourse }) {
           value={course.price}
           onChange={handleChange}
         />
+        <input
+          type="text"
+          name="ytlink"
+          placeholder="YouTube Video Link"
+          value={course.ytlink}
+          onChange={handleChange}
+        />
+        
         <button onClick={handleSubmit}>Add Course</button>
       </div>
     </div>

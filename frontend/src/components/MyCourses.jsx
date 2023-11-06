@@ -3,6 +3,7 @@ import Navbar from './Navbar';
 import { jwtDecode } from 'jwt-decode';
 import axios from 'axios'; // Import Axios
 import CourseCard from './Cards';
+import { Link } from 'react-router-dom';
 
 const MyCourses = () => {
   const [courses, setCourses] = useState([]); // Initialize with an empty array
@@ -35,13 +36,15 @@ const MyCourses = () => {
       
       <div className="courses-container">
         {courses.map((course) => (
-          <CourseCard
-            key={course._id}
-            name={course.name}
-            description={course.description}
-            author={course.author}
-            price={course.price}
-          />
+          <Link to={`/mycourses/${course._id}`} key={course._id}>
+            <CourseCard
+              name={course.name}
+              description={course.description}
+              author={course.author}
+              price={course.price}
+              onCourseClick={() => {}}
+            />
+          </Link>
         ))}
       </div>
     </div>

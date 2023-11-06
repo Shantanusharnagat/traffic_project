@@ -7,6 +7,8 @@ const courseSchema=new Schema({
     price: Number,
     author: String,
     createdby: String,
+    ytlink: String,
+   
 })  
 
 const Course=mongoose.model('Course', courseSchema)

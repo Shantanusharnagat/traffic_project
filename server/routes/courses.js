@@ -22,7 +22,7 @@ router.get('/authorcourses', async(req, res)=>{
 })
 
 router.post('/courses', async(req, res)=>{
-    const {name, description, price, author, createdby}=req.body;
+    const {name, description, price, author, createdby, ytlink}=req.body;
 
     const newCourse=new Course({
         name,
@@ -30,6 +30,8 @@ router.post('/courses', async(req, res)=>{
         price,
         author,
         createdby,
+        ytlink
+        
     })
 
     try{
@@ -49,5 +51,37 @@ router.delete('/courses/:id', async(req, res)=>{
         res.status(500).json({error: 'Couldnt delete course'})
     }
 })
+
+router.get('/courses/:id/ytlink', async (req, res) => {
+    const courseId = req.params.id;
+    try {
+      const course = await Course.findById(courseId);
+  
+      if (!course) {
+        return res.status(404).json({ error: 'Course not found' });
+      }
+  
+      res.json({ ytlink: course.ytlink });
+    } catch (error) {
+      res.status(500).json({ error: 'Could not retrieve course ytlink' });
+    }
+  });
+
+  router.get('/courses/:id', async (req, res) => {
+    const courseId = req.params.id;
+    try {
+      const course = await Course.findById(courseId);
+  
+      if (!course) {
+        return res.status(404).json({ error: 'Course not found' });
+      }
+  
+      res.json(course);
+    } catch (error) {
+      res.status(500).json({ error: 'Could not retrieve course details' });
+    }
+  });
+  
+
 
 module.exports=router
