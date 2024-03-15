@@ -66,8 +66,8 @@ function RegistrationForm() {
             value={formData.role}
             onChange={handleRoleChange}
           >
-            <option value="user">Student</option>
-            <option value="admin">Tutor</option>
+            <option value="user">Citizen</option>
+            <option value="admin">Police</option>
           </select>
         </div>
 
