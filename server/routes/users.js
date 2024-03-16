@@ -25,4 +25,27 @@ router.get('/:userId/courses', async (req, res) => {
   }
 });
 
+router.put('/updatelocation/:userId', async (req, res) => {
+  const userId = req.params.userId;
+  const { latitude, longitude } = req.body;
+
+  try {
+    // Find the user by userId
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+    
+    // Update user's location
+    user.location.coordinates = [latitude, longitude];
+    await user.save();
+
+    res.status(200).json({ message: 'User location updated successfully' });
+  } catch (error) {
+    console.error('Error updating user location:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 module.exports = router;
