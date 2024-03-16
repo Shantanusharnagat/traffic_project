@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 const Navbar = () => {
   // State to store the user's information
   const [userName, setUserName] = useState(null);
+  const [isFilled, setIsFilled] = useState(false);
 
   // Check if the user is logged in based on the presence of a token
   const token = document.cookie.split('; ').find(cookie => cookie.startsWith('token='));
@@ -15,6 +16,9 @@ const Navbar = () => {
       const decodedToken = jwtDecode(token.split('=')[1]);
       // Extract the user's name from the token
       setUserName(decodedToken.userName);
+      setIsFilled(decodedToken.isFilled);
+      
+      
     }
   }, [token]);
 

@@ -12,6 +12,10 @@ const userSchema = new Schema({
     type: { type: String, default: 'Point' }, // Specify the type as 'Point'
     coordinates: { type: [Number], default: [0, 0] }, // Default coordinates
   },
+  carno: { type: String, default: '0' },
+  phonenumber: { type: String, default: '100' },
+  destination: { type: String, default: 'ind' },
+
 });
 
 // Hash and salt the user's password before saving it

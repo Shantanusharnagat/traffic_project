@@ -3,6 +3,7 @@ import {jwtDecode} from 'jwt-decode';
 import Navbar from './Navbar'
 import About from './About'
 import UpdateLocaton from './UpdateLocaton';
+import Details from './Details';
 //import Cards from './Cards'
 
 function Home() {
@@ -24,7 +25,7 @@ function Home() {
     <div>
       <Navbar />
       <About/>
-      {isAuthor ?  <UpdateLocaton/> : null}
+      {isAuthor ?  <UpdateLocaton/> : <Details/>}
     </div>
   )
 

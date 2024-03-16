@@ -2,33 +2,49 @@ import React, { useEffect, useState } from 'react';
 import { LoadScript, GoogleMap, Marker } from '@react-google-maps/api';
 import InfoWindow from './InfoWindow';
 import Navbar from './Navbar';
+import {jwtDecode} from 'jwt-decode';
 
 const Display = () => {
   const [map, setMap] = useState(null);
   const [markers, setMarkers] = useState([]);
   const [selectedHospital, setSelectedHospital] = useState(null);
+  const [isFilled, setIsFilled] = useState(false); // State variable to track if the form is filled
+  const [isAdmin, setIsAdmin] = useState(false); // State variable to track if the user is an admin
 
   useEffect(() => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        const lat = position.coords.latitude;
-        const lng = position.coords.longitude;
-
-        const center = {
-          lat,
-          lng
-        };
-
-        setMap(center);
-        
-        fetchNearbyHospitals(lat, lng);
-      });
-    } else {
-      alert("Geolocation is not supported by this browser.");
+    // Check if the form is filled
+    const token = document.cookie.split('; ').find(cookie => cookie.startsWith('token='));
+    if (token) {
+      const decodedToken = jwtDecode(token.split('=')[1]);
+      setIsFilled(decodedToken.isFilled); // Set isFilled based on the token
+      setIsAdmin(decodedToken.isAuthor); // Set isAdmin based on the token
     }
   }, []);
 
+  useEffect(() => {
+    if (isFilled||isAdmin) {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition((position) => {
+          const lat = position.coords.latitude;
+          const lng = position.coords.longitude;
+
+          const center = {
+            lat,
+            lng
+          };
+
+          setMap(center);
+          
+          fetchNearbyHospitals(lat, lng);
+        });
+      } else {
+        alert("Geolocation is not supported by this browser.");
+      }
+    }
+  }, [isFilled||isAdmin]);
+
   const fetchNearbyHospitals = async (lat, lng) => {
+    // Fetch nearby hospitals
     try {
       const response = await fetch(`http://localhost:5000/api/hospitals/nearbyhospitals?lat=${lat}&lng=${lng}`);
       const data = await response.json();
@@ -62,6 +78,7 @@ const Display = () => {
   };
 
   const calculateDistance = (lat1, lon1, lat2, lon2) => {
+    // Calculate distance between two coordinates
     const R = 6371; // Radius of the Earth in kilometers
     const dLat = deg2rad(lat2 - lat1);
     const dLon = deg2rad(lon2 - lon1);
@@ -74,45 +91,52 @@ const Display = () => {
     return distance;
   };
   
-  // Function to convert degrees to radians
   const deg2rad = (deg) => {
+    // Convert degrees to radians
     return deg * (Math.PI / 180);
   };
-  
 
   return (
     <div>
       <Navbar />
-    <div style={{ height: '700px', width: '100%' }}>
-      <LoadScript
-        googleMapsApiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}
-      >
-        {map && (
-          <GoogleMap
-            mapContainerStyle={{
-              height: '100%',
-              width: '100%'
-            }}
-            zoom={14}
-            center={map}
+      {isFilled || isAdmin ? (
+        <div style={{ height: '700px', width: '100%' }}>
+          <LoadScript
+            googleMapsApiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}
           >
-            {markers.map((marker, index) => (
-              <Marker
-                key={index}
-                position={marker}
-                onClick={() => setSelectedHospital(marker)}
-              />
-            ))}
+            {map && (
+              <GoogleMap
+                mapContainerStyle={{
+                  height: '100%',
+                  width: '100%'
+                }}
+                zoom={14}
+                center={map}
+              >
+                {markers.map((marker, index) => (
+                  <Marker
+                    key={index}
+                    position={marker}
+                    onClick={() => setSelectedHospital(marker)}
+                  />
+                ))}
 
-            {/* InfoWindow to display hospital information */}
-            {selectedHospital && (
-              <InfoWindow hospital={selectedHospital} />
+                {/* InfoWindow to display hospital information */}
+                {selectedHospital && (
+                  <InfoWindow hospital={selectedHospital} />
+                )}
+              </GoogleMap>
             )}
-          </GoogleMap>
-        )}
-      </LoadScript>
-    </div>
+          </LoadScript>
+        </div>
+      ) : (
+        <div>
+          <h2>Please fill the form first</h2>
+          {/* You can add a link to the form here if needed */}
+        </div>
+      )}
     </div>
   );
 };
+
 export default Display;
