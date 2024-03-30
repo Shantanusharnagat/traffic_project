@@ -5,8 +5,9 @@ import './RegistrationForm.css';
 import { useNavigate } from 'react-router-dom';
 
 function RegistrationForm() {
-  const [formData, setFormData] = useState({ username: '', email: '', password: '', role:'user' });
-  const navigate=useNavigate();
+  const [formData, setFormData] = useState({ username: '', email: '', password: '', role: 'user', phoneNumber: '' });
+  const navigate = useNavigate();
+
   const handleFormSubmit = async (e) => {
     e.preventDefault();
 
@@ -19,9 +20,16 @@ function RegistrationForm() {
       console.error(error); // Handle registration failure
     }
   };
+
   const handleRoleChange = (e) => {
-    setFormData({ ...formData, role: e.target.value });
+    const selectedRole = e.target.value;
+    setFormData({
+      ...formData,
+      role: selectedRole,
+      phoneNumber: selectedRole === 'admin' ? '' : formData.phoneNumber // Reset phoneNumber if role is not 'admin'
+    });
   };
+
   return (
     <div className="registration-container">
       <div className="title">Register</div>
@@ -30,7 +38,6 @@ function RegistrationForm() {
           <label className="input-label">Username</label>
           <input
             type="text"
-            
             name="username"
             className="input-field"
             onChange={(e) => setFormData({ ...formData, username: e.target.value })}
@@ -41,7 +48,6 @@ function RegistrationForm() {
           <label className="input-label">Email</label>
           <input
             type="email"
-            
             name="email"
             className="input-field"
             onChange={(e) => setFormData({ ...formData, email: e.target.value })}
@@ -52,12 +58,25 @@ function RegistrationForm() {
           <label className="input-label">Password</label>
           <input
             type="password"
-            
             name="password"
             className="input-field"
             onChange={(e) => setFormData({ ...formData, password: e.target.value })}
           />
         </div>
+
+        {formData.role === 'admin' && (
+          <div className="input-container">
+            <label className="input-label">Phone Number</label>
+            <input
+              type="text"
+              name="phoneNumber"
+              className="input-field"
+              value={formData.phoneNumber}
+              onChange={(e) => setFormData({ ...formData, phoneNumber: e.target.value })}
+            />
+          </div>
+        )}
+
         <div className="input-container">
           <label className="input-label">Role</label>
           <select

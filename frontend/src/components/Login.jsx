@@ -3,9 +3,9 @@ import axios from 'axios';
 import './Login.css'; // Import the CSS file
 import { useNavigate } from 'react-router-dom';
 
-
 function Login() {
   const [formData, setFormData] = useState({ email: '', password: '' });
+  const [error, setError] = useState(null); // State to store error message
   const navigate = useNavigate();
 
   const handleInputChange = (e) => {
@@ -21,11 +21,12 @@ function Login() {
       console.log(response.data)
       navigate('/');
     } catch (error) {
-      console.log(error);
+      if (error.response && error.response.status === 404) {
+        setError('User not found. Please check your credentials.');
+      } else {
+        console.log(error);
+      }
     }
-
-    // Send a request to your backend to handle login with formData
-    //console.log('Login data:', formData);
   };
 
   return (
@@ -60,6 +61,7 @@ function Login() {
           </button>
         </div>
       </form>
+      {error && <p className="error-message">{error}</p>}
       <p className="already-registered">
         Not registered yet? <a href="/register">Register</a>
       </p>

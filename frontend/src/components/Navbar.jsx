@@ -51,7 +51,7 @@ const Navbar = () => {
 
         {userName && ( // Only show "My Courses" link if the user is logged in
           <li className="navbar-item">
-            <Link to="/mycourses" className='navbar-link'>My Courses</Link>
+            <Link to="/notification" className='navbar-link'>Notification</Link>
           </li>
         )}
         <li className="navbar-item">

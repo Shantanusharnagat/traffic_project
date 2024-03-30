@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const axios = require('axios');
 const dotenv= require('dotenv').config()
+const User=require('../models/user')
 
 router.get('/nearbyhospitals', async (req, res) => {
   try {
@@ -45,6 +46,62 @@ const response = await axios.get(`https://maps.googleapis.com/maps/api/direction
     }
   } catch (error) {
     console.error('Error fetching directions:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+router.get('/userinfo/:userId', async (req, res) => {
+  const { userId } = req.params;
+  try{
+    const user=await User.findById(userId);
+    res.json(user);
+} catch(error){
+    res.status(500).json({error: 'Couldnt retrieve user'})
+}
+});
+
+router.get('/notifications/:userId', async (req, res) => {
+  try {
+    const { userId } = req.params;
+    // Fetch the user document from MongoDB based on userId
+    const user = await User.findById(userId);
+    
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    // Extract the notification parameter from the user document
+    const notification = user.notification;
+
+    res.json({ notification });
+  } catch (error) {
+    console.error('Error fetching notification:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+router.get('/police', async (req, res) => {
+  const { lat, lng, radius } = req.query;
+  const {role}='admin';
+  try {
+    // Query users with role 'admin' (police officers) within the radius
+    const policeOfficers = await User.find({
+      role: 'admin',
+      location: {
+        $near: {
+          $geometry: {
+            type: 'Point',
+            coordinates: [parseFloat(lng), parseFloat(lat)] // MongoDB expects [longitude, latitude]
+          },
+          $maxDistance: parseFloat(radius) * 1000 // Convert radius to meters (assuming radius is in kilometers)
+        }
+      }
+    }).sort({ location: 1 }).limit(1);
+  
+
+    res.json(policeOfficers);
+  } catch (error) {
+    console.error('Error fetching police officers:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
 });

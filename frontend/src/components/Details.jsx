@@ -30,7 +30,7 @@ const Details = () => {
 
       try {
         // Make the API call to store the user details in the database
-        await axios.put(`http://localhost:5000/api/users/submit/${userId}`, { carno: carNumber, phonenumber: phoneNumber, destination });
+        await axios.put(`http://localhost:5000/api/users/submit/${userId}`, { carno: carNumber, phoneNumber: phoneNumber, destination });
         
         // Update form submission status and store it in localStorage
         setIsSubmitted(true);

@@ -7,16 +7,18 @@ const userSchema = new Schema({
   email: { type: String, unique: true },
   password: String,
   role: { type: String, default: 'user' },
-  coursesBought: [{ type: Schema.Types.ObjectId, ref: 'Course' }],
   location: {
-    type: { type: String, default: 'Point' }, // Specify the type as 'Point'
-    coordinates: { type: [Number], default: [0, 0] }, // Default coordinates
+    type: { type: String, default: 'Point' },
+    coordinates: { type: [Number], default: [0, 0] },
   },
   carno: { type: String, default: '0' },
-  phonenumber: { type: String, default: '100' },
+  phoneNumber: { type: String, default: '100' },
   destination: { type: String, default: 'ind' },
-
+  notification: { type: String, default: 'No Notifications today' }, // Notification parameter added here
 });
+
+// Create a geospatial index on the location field
+userSchema.index({ location: '2dsphere' });
 
 // Hash and salt the user's password before saving it
 userSchema.pre('save', function (next) {

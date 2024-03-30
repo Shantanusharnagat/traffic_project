@@ -6,7 +6,7 @@ import Home from './components/Home';
 import Display from './components/Display';
 import Success from './components/Success';
 import Cancel from './components/Cancel';
-import MyCourses from './components/MyCourses';
+import Notification from './components/Notification';
 import CourseDetail from './components/CourseDetail';
 
 function App() {
@@ -20,7 +20,7 @@ function App() {
           <Route path="/courses" element={<Display />} />
           <Route path="/success" element={<Success/>} />
           <Route path="/cancel" element={<Cancel/>} />
-          <Route path="/mycourses" element={<MyCourses/>} />
+          <Route path="/notification" element={<Notification/>} />
           <Route path='/mycourses/:id' element={<CourseDetail/>} />
 
         </Routes>

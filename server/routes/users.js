@@ -50,7 +50,7 @@ router.put('/updatelocation/:userId', async (req, res) => {
 
 router.put('/submit/:userId', async (req, res) => {
   const userId = req.params.userId;
-  const { carno, phonenumber, destination } = req.body;
+  const { carno, phoneNumber, destination } = req.body;
 
   try {
     // Find the user by userId
@@ -60,7 +60,7 @@ router.put('/submit/:userId', async (req, res) => {
     }
     // Update user's details
     user.carno = carno;
-    user.phonenumber = phonenumber;
+    user.phoneNumber = phoneNumber;
     user.destination = destination;
     await user.save();
     res.status(200).json({ message: 'User details submitted successfully' });

@@ -9,15 +9,15 @@ router.use(cookieParser())
 
 // User registration
 router.post('/register', async (req, res) => {
-  const { username, email, password, role } = req.body; // Assuming isFilled is sent in the request body
-  const user = new User({ username, email, password, role });
+  const { username, email, password, role, phoneNumber } = req.body; // Assuming isFilled is sent in the request body
+  const user = new User({ username, email, password, role, phoneNumber });
 
   try {
     await user.save();
     const isAuthor = user.role == 'admin';
     console.log(isAuthor)
     const secretKey = 'abc123';
-    const isFilled = user.carno !== '0' && user.phonenumber !== '100' && user.destination !== 'ind';
+    const isFilled = user.carno !== '0' && user.phoneNumber !== '100' && user.destination !== 'ind';
     const token = jwt.sign({ userId: user._id, isAuthor, userName: user.username, isFilled }, secretKey, { expiresIn: '1h' });
 
     // Set a cookie and redirect to root
@@ -56,7 +56,7 @@ router.post('/login', async (req, res) => {
 
     // Generate a JWT token for authentication
     const secretKey = 'abc123';
-    const isFilled = user.carno !== '0' && user.phonenumber !== '100' && user.destination !== 'ind';
+    const isFilled = user.carno !== '0' && user.phoneNumber !== '100' && user.destination !== 'ind';
     const token = jwt.sign({ userId: user._id, isAuthor, userName: user.username, isFilled }, secretKey, { expiresIn: '1h' });
 
     // Set a cookie and redirect to root
