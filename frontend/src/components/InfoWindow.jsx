@@ -66,7 +66,7 @@ const InfoWindow = ({ hospital }) => {
       const response = await fetch(`http://localhost:5000/api/hospitals/police?lat=${originLat}&lng=${originLng}&radius=1000000000000`);
       const data = await response.json();
       console.log('Police Officers:', data);
-      
+
 
       const request=await fetch(`http://localhost:5000/api/hospitals/userinfo/${userId}`);
       const user=await request.json();
@@ -83,7 +83,7 @@ const InfoWindow = ({ hospital }) => {
         url: 'https://textflow-sms-api.p.rapidapi.com/send-sms',
         headers: {
           'content-type': 'application/json',
-          'X-RapidAPI-Key': '5bbe6357c8mshba17bbd35f0d2c8p1359a1jsn5da9458963a0',
+          'X-RapidAPI-Key': '7195453ebemshb93e58526f13705p10a2c1jsn1a3e0524676a',
           'X-RapidAPI-Host': 'textflow-sms-api.p.rapidapi.com'
         },
         data: {
