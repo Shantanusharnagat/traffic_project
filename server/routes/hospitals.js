@@ -50,10 +50,37 @@ const response = await axios.get(`https://maps.googleapis.com/maps/api/direction
   }
 });
 
-router.get('/userinfo/:userId', async (req, res) => {
-  const { userId } = req.params;
+router.get('/userinfo/:userId/:polsid/:hospitalname', async (req, res) => {
+  const { userId, polsid, hospitalname } = req.params;
+
   try{
     const user=await User.findById(userId);
+    const police=await User.findById(polsid);
+    
+    police.notification = `Alert: ${user.username} requires assistance. Contact: ${user.phoneNumber}, Car Number: ${user.carno}`;
+    await police.save();
+
+    user.notification = `Alert sent to police officer: ${police.username}`;
+    await user.save();
+
+    
+    const accountSid = `${process.env.TWILIO_ACCOUNT_SID}`;
+    const authToken = `${process.env.TWILIO_AUTH_TOKEN}`;
+    const client = require('twilio')(accountSid, authToken);
+
+client.messages
+    .create({
+        body: `Alert: ${user.username} requires assistance.
+         Contact: ${user.phoneNumber},
+          Car Number: ${user.carno},
+          Destination: ${hospitalname}`,
+        from: `${process.env.TWILIO_PHONE_NUMBER}`,
+        to: police.phoneNumber
+    })
+    .then(message => console.log(message.sid))
+    .catch(error => console.error(error));
+
+
     res.json(user);
 } catch(error){
     res.status(500).json({error: 'Couldnt retrieve user'})

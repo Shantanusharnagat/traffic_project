@@ -19,7 +19,7 @@ const MyCourses = () => {
 
       // Make an API request to get the user's courses using Axios
       axios
-        .get(`http://localhost:5000/api/users/${decodedToken.userId}/courses`)
+        .get(`/api/users/${decodedToken.userId}/courses`)
         .then((response) => {
           console.log(response.data);
           setCourses(response.data); // Update the courses state with the fetched data

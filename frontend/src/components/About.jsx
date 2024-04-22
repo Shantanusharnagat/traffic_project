@@ -8,7 +8,7 @@ const ImageWithTextOverlay = () => {
     <div className="image-with-text-container">
       <img src="/images/flex_displaycurves.png" alt="" />
       <div className="text-overlay">
-        <h1 className="large-text">Your pathway to success</h1>
+        <h1 className="large-text">We secure your loved ones</h1>
         
       </div>
     </div>

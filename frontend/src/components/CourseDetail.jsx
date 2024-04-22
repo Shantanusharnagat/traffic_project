@@ -11,11 +11,11 @@ const CourseDetail = () => {
 
   useEffect(() => {
     // Fetch course details
-    axios.get(`http://localhost:5000/api/courses/courses/${id}`)
+    axios.get(`/api/courses/courses/${id}`)
       .then(response => {
         setCourse(response.data);
         // After fetching the course details, fetch the ytlink
-        return axios.get(`http://localhost:5000/api/courses/courses/${id}/ytlink`);
+        return axios.get(`/api/courses/courses/${id}/ytlink`);
       })
       .then(response => {
         setYtLink(response.data.ytlink);

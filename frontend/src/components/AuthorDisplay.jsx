@@ -10,7 +10,7 @@ function Courses() {
   const [user_id, setUser_id] = useState('');
 
   const fetchCourses = () => {
-    axios.get(`http://localhost:5000/api/courses/authorcourses?createdby=${user_id}`)
+    axios.get(`/api/courses/authorcourses?createdby=${user_id}`)
       .then(response => {
         setCourses(response.data);
       })
@@ -31,7 +31,7 @@ function Courses() {
 
   const addCourse = (newCourse) => {
     newCourse.createdby = user_id;
-    axios.post('http://localhost:5000/api/courses/courses', newCourse)
+    axios.post('/api/courses/courses', newCourse)
       .then(() => {
         fetchCourses(); // Refresh the course list
       })
@@ -41,7 +41,7 @@ function Courses() {
   };
 
   const deleteCourse = (courseId) => {
-    axios.delete(`http://localhost:5000/api/courses/courses/${courseId}`)
+    axios.delete(`/api/courses/courses/${courseId}`)
       .then(() => {
         fetchCourses(); // Refresh the course list
       })

@@ -28,7 +28,7 @@ const UpdateLocation = () => {
           const { latitude, longitude } = position.coords;
           setLatitude(latitude);
           setLongitude(longitude);
-          await axios.put(`http://localhost:5000/api/users/updatelocation/${userId}`, { latitude, longitude });
+          await axios.put(`/api/users/updatelocation/${userId}`, { latitude, longitude });
           alert('Location updated successfully!');
           setIsLoading(false); // Reset loading state once update is complete
         });

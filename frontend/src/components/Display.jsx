@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { LoadScript, GoogleMap, Marker } from '@react-google-maps/api';
+import { LoadScript, GoogleMap, Marker, DirectionsRenderer } from '@react-google-maps/api';
 import InfoWindow from './InfoWindow';
 import Navbar from './Navbar';
-import {jwtDecode} from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 
 const Display = () => {
+  const [currentPosition, setCurrentPosition] = useState(null);
   const [map, setMap] = useState(null);
   const [markers, setMarkers] = useState([]);
   const [selectedHospital, setSelectedHospital] = useState(null);
   const [isFilled, setIsFilled] = useState(false); // State variable to track if the form is filled
   const [isAdmin, setIsAdmin] = useState(false); // State variable to track if the user is an admin
+  const [directions, setDirections] = useState(null); // State variable to hold the directions
 
   useEffect(() => {
     // Check if the form is filled
@@ -22,11 +24,12 @@ const Display = () => {
   }, []);
 
   useEffect(() => {
-    if (isFilled||isAdmin) {
+    if (isFilled || isAdmin) {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition((position) => {
           const lat = position.coords.latitude;
           const lng = position.coords.longitude;
+          setCurrentPosition({ lat: lat, lng: lng });
 
           const center = {
             lat,
@@ -34,14 +37,38 @@ const Display = () => {
           };
 
           setMap(center);
-          
+
           fetchNearbyHospitals(lat, lng);
         });
       } else {
         alert("Geolocation is not supported by this browser.");
       }
     }
-  }, [isFilled||isAdmin]);
+  }, [isFilled || isAdmin]);
+
+  useEffect(() => {
+    if (selectedHospital && currentPosition) {
+      const origin = currentPosition;
+      const destination = selectedHospital;
+
+      const directionsService = new window.google.maps.DirectionsService();
+
+      directionsService.route(
+        {
+          origin: origin,
+          destination: destination,
+          travelMode: 'DRIVING',
+        },
+        (result, status) => {
+          if (status === 'OK') {
+            setDirections(result);
+          } else {
+            console.error(`Error fetching directions: ${status}`);
+          }
+        }
+      );
+    }
+  }, [selectedHospital, currentPosition]);
 
   const fetchNearbyHospitals = async (lat, lng) => {
     // Fetch nearby hospitals
@@ -90,7 +117,7 @@ const Display = () => {
     const distance = R * c; // Distance in kilometers
     return distance;
   };
-  
+
   const deg2rad = (deg) => {
     // Convert degrees to radians
     return deg * (Math.PI / 180);
@@ -102,7 +129,7 @@ const Display = () => {
       {isFilled || isAdmin ? (
         <div style={{ height: '700px', width: '100%' }}>
           <LoadScript
-            googleMapsApiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}
+            googleMapsApiKey='AIzaSyAY9Gd3Ta9LSN4fROtwzBDe4dHjB3Yn0Qk'
           >
             {map && (
               <GoogleMap
@@ -124,6 +151,14 @@ const Display = () => {
                 {/* InfoWindow to display hospital information */}
                 {selectedHospital && (
                   <InfoWindow hospital={selectedHospital} />
+                )}
+
+                {/* Render directions if available */}
+                {directions && (
+                  <DirectionsRenderer
+                    directions={directions}
+                    options={{ suppressMarkers: true }}
+                  />
                 )}
               </GoogleMap>
             )}

@@ -37,7 +37,7 @@ const Navbar = () => {
     <nav className="navbar">
       <ul className='navbar-list'>
         <li className="navbar-logo">
-          <Link to="/" className="navbar-logo">Course App</Link>
+          <Link to="/" className="navbar-logo">Smart Flow</Link>
         </li>
       </ul>
       <ul className="navbar-list">

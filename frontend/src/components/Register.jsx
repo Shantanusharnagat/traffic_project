@@ -12,7 +12,7 @@ function RegistrationForm() {
     e.preventDefault();
 
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/register', formData);
+      const response = await axios.post('/api/auth/register', formData);
       document.cookie = `token=${response.data.token}`;
       console.log(response.data)
       navigate('/');

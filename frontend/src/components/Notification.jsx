@@ -19,7 +19,7 @@ const Notification = () => {
 
   const fetchNotifications = async (userId) => {
     try {
-      const response = await axios.get(`http://localhost:5000/api/hospitals/notifications/${userId}`);
+      const response = await axios.get(`/api/hospitals/notifications/${userId}`);
       setNotifications(response.data.notification);
       setLoading(false);
     } catch (error) {

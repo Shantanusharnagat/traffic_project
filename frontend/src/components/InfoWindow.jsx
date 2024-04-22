@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import {jwtDecode} from 'jwt-decode';
 
+
 const InfoWindow = ({ hospital }) => {
   const [currentPosition, setCurrentPosition] = useState(null);
   const [username, setUsername] = useState('karan');
@@ -63,37 +64,26 @@ const InfoWindow = ({ hospital }) => {
       const { lat: destinationLat, lng: destinationLng } = hospital;
   
       // Fetch list of police officers within a radius from your backend API
-      const response = await fetch(`http://localhost:5000/api/hospitals/police?lat=${originLat}&lng=${originLng}&radius=1000000000000`);
+      const response = await fetch(`/api/hospitals/police?lat=${originLat}&lng=${originLng}&radius=1000000000000`);
       const data = await response.json();
-      console.log('Police Officers:', data);
+      console.log('Police Officers:', data[0]._id);
+
+      const polsid=data[0]._id;
+      const hospitalname=hospital.name;
 
 
-      const request=await fetch(`http://localhost:5000/api/hospitals/userinfo/${userId}`);
+      const request=await fetch(`/api/hospitals/userinfo/${userId}/${polsid}/${hospitalname}`);
       const user=await request.json();
       console.log('user Officers:', user);
       setPhoneNumber(user.phoneNumber);
       console.log('phone number:', phoneNumber);
       setCarno(user.carno);
       console.log('car number:', carno);
+      console.log(data[0].phoneNumber)
 
 
 
-      const options = {
-        method: 'POST',
-        url: 'https://textflow-sms-api.p.rapidapi.com/send-sms',
-        headers: {
-          'content-type': 'application/json',
-          'X-RapidAPI-Key': '7195453ebemshb93e58526f13705p10a2c1jsn1a3e0524676a',
-          'X-RapidAPI-Host': 'textflow-sms-api.p.rapidapi.com'
-        },
-        data: {
-          phone_number: data[0].phoneNumber,
-          text: `Alert: ${username} requires assistance. Contact: ${phoneNumber}, Car Number: ${carno}, Destination: ${hospital.name}`
-        }
-      };
-
-      const res = await axios.request(options);
-      
+     
   
       window.alert('Police have been successfully notified.');
     } catch (error) {
@@ -106,7 +96,7 @@ const InfoWindow = ({ hospital }) => {
     <div style={styles.container}>
       <h3 style={styles.title}>{hospital.name}</h3>
       <p style={styles.address}>{hospital.address}</p>
-      <button style={styles.button} onClick={handleDirectionsClick}>Get Directions</button>
+      {/* <button style={styles.button} onClick={handleDirectionsClick}>Get Directions</button> */}
       <button style={styles.button} onClick={handleNotifyPoliceClick}>Notify Police</button>
     </div>
   );
