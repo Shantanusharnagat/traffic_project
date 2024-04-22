@@ -73,7 +73,7 @@ const Display = () => {
   const fetchNearbyHospitals = async (lat, lng) => {
     // Fetch nearby hospitals
     try {
-      const response = await fetch(`http://localhost:5000/api/hospitals/nearbyhospitals?lat=${lat}&lng=${lng}`);
+      const response = await fetch(`/api/hospitals/nearbyhospitals?lat=${lat}&lng=${lng}`);
       const data = await response.json();
 
       if (data.length > 0) {
